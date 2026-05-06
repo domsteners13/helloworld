@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Purrfect Picks — TikTok Cat Shop</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Purrfect Picks <span class="paw">🐾</span></h1>
+    <p class="tagline">A cat-loving TikTok Shop. Trending today, curated by paws.</p>
+    <div class="controls">
+      <label>
+        Sort
+        <select id="sort">
+          <option value="smart">Smart (priority + feedback)</option>
+          <option value="trending">TikTok trending</option>
+          <option value="liked">Most loved</option>
+          <option value="price-asc">Price: low → high</option>
+          <option value="price-desc">Price: high → low</option>
+        </select>
+      </label>
+      <label>
+        Filter
+        <select id="filter">
+          <option value="all">All products</option>
+          <option value="mine">My shop only</option>
+          <option value="trending">Trending only</option>
+        </select>
+      </label>
+      <button id="refresh-trending" type="button">Refresh trending</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="featured" class="featured">
+    <h2>Featured cat of the day</h2>
+    <div class="featured-card">
+      <img id="featured-cat" alt="A featured cat" />
+      <button id="new-cat" type="button">New cat 🐱</button>
+    </div>
+  </section>
+
+  <section class="grid-section">
+    <h2 id="grid-title">Today's picks</h2>
+    <div id="grid" class="grid" aria-live="polite"></div>
+  </section>
+</main>
+
+<footer>
+  <p>Built with love and lots of cat photos. Feedback shapes what's shown next.</p>
+</footer>
+
+<template id="card-tpl">
+  <article class="card">
+    <div class="card-media">
+      <img class="card-img" alt="" />
+      <span class="badges"></span>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title"></h3>
+      <p class="card-desc"></p>
+      <div class="card-meta">
+        <span class="price"></span>
+        <span class="trend"></span>
+      </div>
+      <div class="card-actions">
+        <button class="like" type="button" aria-label="Like">♥ <span class="like-count">0</span></button>
+        <button class="dislike" type="button" aria-label="Not for me">✕</button>
+        <button class="buy" type="button">Buy on TikTok</button>
+      </div>
+    </div>
+  </article>
+</template>
+
+<script src="data/products.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

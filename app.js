@@ -111,6 +111,17 @@ function renderCard(p) {
   if (p.trendScore && p.trendScore >= 80)
     badges.append(makeBadge("Trending", "trending"));
   if (smartScore(p) >= 110) badges.append(makeBadge("Top pick", "priority"));
+  if (p.ukWarehouse) badges.append(makeBadge("🇬🇧 UK stock", "uk"));
+
+  if (p.ukWarehouse) {
+    const meta = document.createElement("p");
+    meta.className = "uk-meta";
+    meta.textContent = `Stocked in UK · ${p.ukWarehouse}`;
+    node.querySelector(".card-body").insertBefore(
+      meta,
+      node.querySelector(".card-actions")
+    );
+  }
 
   const likeBtn = node.querySelector(".like");
   likeBtn.querySelector(".like-count").textContent = f.likes;

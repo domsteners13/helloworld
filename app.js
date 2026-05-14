@@ -187,13 +187,30 @@ async function loadTrending() {
 
 function setupFeatured() {
   const img = document.getElementById("featured-cat");
-  let n = 0;
-  const refresh = () => {
-    n += 1;
-    img.src = `https://cataas.com/cat?width=1200&height=560&random=feat-${Date.now()}-${n}`;
+  const btn = document.getElementById("new-cat");
+  // thecatapi returns curated, well-framed photos. Cataas was returning
+  // unflattering crops (no face, snotty noses, etc).
+  const fetchCat = async () => {
+    try {
+      const res = await fetch(
+        `https://api.thecatapi.com/v1/images/search?size=med&mime_types=jpg,png&t=${Date.now()}`
+      );
+      const [data] = await res.json();
+      return data?.url;
+    } catch {
+      return null;
+    }
+  };
+  const refresh = async () => {
+    btn.disabled = true;
+    const url = await fetchCat();
+    img.src =
+      url ||
+      `https://cataas.com/cat/cute?width=1200&height=560&random=${Date.now()}`;
+    btn.disabled = false;
   };
   refresh();
-  document.getElementById("new-cat").addEventListener("click", refresh);
+  btn.addEventListener("click", refresh);
 }
 
 function setupControls() {

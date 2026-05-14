@@ -1,13 +1,10 @@
 // Two product feeds. In production swap fetchTrendingProducts() for the real
 // TikTok Shop / Creator Marketplace API call (see README.md).
 
-// Product photos come from loremflickr.com (real Flickr photos by keyword).
-// Swap any image with your own product photo URL when you have real shots.
-const productImg = (keywords, seed, w = 600, h = 600) =>
-  `https://loremflickr.com/${w}/${h}/${keywords}?lock=${encodeURIComponent(seed)}`;
-
-const catImg = (seed, w = 600, h = 600) =>
-  `https://cataas.com/cat?width=${w}&height=${h}&random=${encodeURIComponent(seed)}`;
+// Placeholder product images via placehold.co — colored cards with the
+// product name. Swap any `image:` URL for your own product photo when ready.
+const productImg = (label, bg = "FF3E7F", fg = "FFFFFF") =>
+  `https://placehold.co/600x600/${bg}/${fg}.png?text=${encodeURIComponent(label)}&font=poppins`;
 
 // Products YOU sell. These get a priority boost in ranking.
 window.MY_PRODUCTS = [
@@ -16,7 +13,7 @@ window.MY_PRODUCTS = [
     title: "Mochi the Tabby Sticker Pack",
     desc: "12 die-cut vinyl stickers of our shop mascot.",
     price: 8.99,
-    image: productImg("stickers,vinyl", "mine-001"),
+    image: productImg("Sticker Pack", "FF3E7F"),
     mine: true,
     tags: ["stickers", "cute", "gift"],
   },
@@ -25,7 +22,7 @@ window.MY_PRODUCTS = [
     title: "Cat Loaf Beanie",
     desc: "Soft knit hat with kitty ears. One size fits most.",
     price: 22.0,
-    image: productImg("beanie,knit-hat", "mine-002"),
+    image: productImg("Beanie", "7A5CFF"),
     mine: true,
     tags: ["apparel", "winter"],
   },
@@ -34,7 +31,7 @@ window.MY_PRODUCTS = [
     title: "Whiskers Enamel Pin",
     desc: "Hard enamel, gold-plated. Pin your love for cats.",
     price: 11.5,
-    image: productImg("enamel,pin,badge", "mine-003"),
+    image: productImg("Enamel Pin", "FFB347"),
     mine: true,
     tags: ["accessory", "gift"],
   },
@@ -43,7 +40,7 @@ window.MY_PRODUCTS = [
     title: "Purrfect Picks Tote",
     desc: "Heavy canvas tote printed with 9 of our cat regulars.",
     price: 18.0,
-    image: productImg("tote,canvas,bag", "mine-004"),
+    image: productImg("Canvas Tote", "1D1430"),
     mine: true,
     tags: ["bag", "apparel"],
   },
@@ -51,9 +48,8 @@ window.MY_PRODUCTS = [
     id: "mine-005",
     title: "Catnip Plush Trio",
     desc: "Three hand-stitched plushies stuffed with organic catnip.",
-    // Genuinely a cat-themed product — keep a kitten photo here.
-    image: catImg("catnip-plush"),
     price: 14.99,
+    image: productImg("Plush Trio", "00C2A8"),
     mine: true,
     tags: ["toy", "pet"],
   },
@@ -71,7 +67,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Glow-Eye Cat Night Light",
       desc: "Color-shifting bedside lamp shaped like a sitting cat.",
       price: 19.99,
-      image: productImg("lamp,nightlight", "tk-101"),
+      image: productImg("Night Light", "FFD66B", "1D1430"),
       trendScore: 92 + jitter(),
       tags: ["home", "gadget"],
     },
@@ -80,7 +76,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Self-Cleaning Litter Scoop",
       desc: "Viral on #CatTok. Sifts in one motion.",
       price: 24.5,
-      image: productImg("scoop,plastic,tool", "tk-102"),
+      image: productImg("Litter Scoop", "4FB3FF"),
       trendScore: 88 + jitter(),
       tags: ["pet", "tool"],
     },
@@ -89,7 +85,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Cat Tunnel Mega Pack",
       desc: "3-piece collapsible tunnel set with crinkle lining.",
       price: 32.0,
-      image: productImg("tunnel,pet,toy", "tk-103"),
+      image: productImg("Cat Tunnel", "FF8A3D"),
       trendScore: 85 + jitter(),
       tags: ["pet", "toy"],
     },
@@ -98,7 +94,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Feline Facial Mist",
       desc: "Silly trend, real product. Cucumber + chamomile.",
       price: 12.0,
-      image: productImg("spray,bottle,cosmetic", "tk-104"),
+      image: productImg("Facial Mist", "B6E388", "1D1430"),
       trendScore: 80 + jitter(),
       tags: ["pet", "wellness"],
     },
@@ -107,7 +103,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Tiny Cat Astronaut Helmet",
       desc: "Photo prop. Do not actually launch your cat.",
       price: 27.0,
-      image: productImg("helmet,astronaut", "tk-105"),
+      image: productImg("Astro Helmet", "C0C9D6", "1D1430"),
       trendScore: 78 + jitter(),
       tags: ["costume", "photo"],
     },
@@ -116,7 +112,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Laser Pointer Robot",
       desc: "Auto-roaming. Keeps cats entertained for hours.",
       price: 36.99,
-      image: productImg("laser,gadget,robot", "tk-106"),
+      image: productImg("Laser Robot", "1D1430"),
       trendScore: 75 + jitter(),
       tags: ["pet", "gadget"],
     },
@@ -125,7 +121,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Cat Loaf Mug",
       desc: "Heat-reactive ceramic. Mug warms, cat appears.",
       price: 16.0,
-      image: productImg("mug,ceramic,coffee", "tk-107"),
+      image: productImg("Ceramic Mug", "F5C8C0", "1D1430"),
       trendScore: 70 + jitter(),
       tags: ["home", "gift"],
     },
@@ -134,8 +130,7 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Window Hammock Perch",
       desc: "Suction-cup mount. Holds up to 30 lbs.",
       price: 28.0,
-      // Cat-themed pet product — keep a cat photo so you see the use case.
-      image: catImg("window-hammock"),
+      image: productImg("Window Perch", "7A5CFF"),
       trendScore: 68 + jitter(),
       tags: ["pet", "home"],
     },

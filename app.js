@@ -16,7 +16,18 @@ const state = {
   feedback: loadFeedback(),
   sort: "smart",
   filter: "all",
+  currency: localStorage.getItem("pp.currency") || "GBP",
 };
+
+const CURRENCY_SYMBOL = { GBP: "£", EUR: "€" };
+
+function priceOf(p) {
+  return p.prices?.[state.currency] ?? 0;
+}
+
+function formatPrice(p) {
+  return `${CURRENCY_SYMBOL[state.currency]}${priceOf(p).toFixed(2)}`;
+}
 
 function loadFeedback() {
   try {
@@ -62,10 +73,10 @@ function rank(products) {
       list.sort((a, b) => fb(b.id).likes - fb(a.id).likes);
       break;
     case "price-asc":
-      list.sort((a, b) => a.price - b.price);
+      list.sort((a, b) => priceOf(a) - priceOf(b));
       break;
     case "price-desc":
-      list.sort((a, b) => b.price - a.price);
+      list.sort((a, b) => priceOf(b) - priceOf(a));
       break;
     case "smart":
     default:
@@ -90,7 +101,7 @@ function renderCard(p) {
   node.querySelector(".card-img").alt = p.title;
   node.querySelector(".card-title").textContent = p.title;
   node.querySelector(".card-desc").textContent = p.desc;
-  node.querySelector(".price").textContent = `$${p.price.toFixed(2)}`;
+  node.querySelector(".price").textContent = formatPrice(p);
   node.querySelector(".trend").textContent = p.trendScore
     ? `🔥 ${Math.round(p.trendScore)}`
     : "";
@@ -192,6 +203,13 @@ function setupControls() {
   });
   document.getElementById("filter").addEventListener("change", (e) => {
     state.filter = e.target.value;
+    render();
+  });
+  const currencySel = document.getElementById("currency");
+  currencySel.value = state.currency;
+  currencySel.addEventListener("change", (e) => {
+    state.currency = e.target.value;
+    localStorage.setItem("pp.currency", state.currency);
     render();
   });
   document

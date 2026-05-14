@@ -1,10 +1,18 @@
 // Two product feeds. In production swap fetchTrendingProducts() for the real
 // TikTok Shop / Creator Marketplace API call (see README.md).
 
-// Placeholder product images via placehold.co — colored cards with the
-// product name. Swap any `image:` URL for your own product photo when ready.
-const productImg = (label, bg = "FF3E7F", fg = "FFFFFF") =>
-  `https://placehold.co/600x600/${bg}/${fg}.png?text=${encodeURIComponent(label)}&font=poppins`;
+// Real product photos from Unsplash (free, hotlinkable).
+// Swap any `image:` URL for your own product photo when ready.
+const unsplash = (id, w = 600, h = 600) =>
+  `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&auto=format&q=80`;
+const unsplashPremium = (id, w = 600, h = 600) =>
+  `https://plus.unsplash.com/premium_photo-${id}?w=${w}&h=${h}&fit=crop&auto=format&q=80`;
+
+// Until real TikTok Shop product URLs are wired up, send buyers to a TikTok
+// product search for the item. Replace per-product with the real deeplink
+// (e.g. https://shop.tiktok.com/view/product/<id>) when you have one.
+const tiktokSearch = (q) =>
+  `https://www.tiktok.com/search?q=${encodeURIComponent(q)}&type=product`;
 
 // Products YOU sell. These get a priority boost in ranking.
 window.MY_PRODUCTS = [
@@ -13,7 +21,8 @@ window.MY_PRODUCTS = [
     title: "Mochi the Tabby Sticker Pack",
     desc: "12 die-cut vinyl stickers of our shop mascot.",
     prices: { GBP: 6.99, EUR: 7.99 },
-    image: productImg("Sticker Pack", "FF3E7F"),
+    image: unsplashPremium("1680626561534-079425381952"),
+    url: tiktokSearch("cat sticker pack vinyl"),
     mine: true,
     tags: ["stickers", "cute", "gift"],
   },
@@ -22,7 +31,8 @@ window.MY_PRODUCTS = [
     title: "Cat Loaf Beanie",
     desc: "Soft knit hat with kitty ears. One size fits most.",
     prices: { GBP: 17.99, EUR: 19.99 },
-    image: productImg("Beanie", "7A5CFF"),
+    image: unsplash("1576871337632-b9aef4c17ab9"),
+    url: tiktokSearch("cat ear beanie hat"),
     mine: true,
     tags: ["apparel", "winter"],
   },
@@ -31,7 +41,8 @@ window.MY_PRODUCTS = [
     title: "Whiskers Enamel Pin",
     desc: "Hard enamel, gold-plated. Pin your love for cats.",
     prices: { GBP: 8.99, EUR: 10.99 },
-    image: productImg("Enamel Pin", "FFB347"),
+    image: unsplash("1608147152875-b0eb0c53d491"),
+    url: tiktokSearch("cat enamel pin"),
     mine: true,
     tags: ["accessory", "gift"],
   },
@@ -40,7 +51,8 @@ window.MY_PRODUCTS = [
     title: "Purrfect Picks Tote",
     desc: "Heavy canvas tote printed with 9 of our cat regulars.",
     prices: { GBP: 14.99, EUR: 16.99 },
-    image: productImg("Canvas Tote", "1D1430"),
+    image: unsplash("1574365569389-a10d488ca3fb"),
+    url: tiktokSearch("cat canvas tote bag"),
     mine: true,
     tags: ["bag", "apparel"],
   },
@@ -49,7 +61,8 @@ window.MY_PRODUCTS = [
     title: "Catnip Plush Trio",
     desc: "Three hand-stitched plushies stuffed with organic catnip.",
     prices: { GBP: 11.99, EUR: 13.99 },
-    image: productImg("Plush Trio", "00C2A8"),
+    image: unsplash("1641085809270-71f722611ce1"),
+    url: tiktokSearch("catnip plush toy"),
     mine: true,
     tags: ["toy", "pet"],
   },
@@ -67,7 +80,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Glow-Eye Cat Night Light",
       desc: "Color-shifting bedside lamp shaped like a sitting cat.",
       prices: { GBP: 15.99, EUR: 18.99 },
-      image: productImg("Night Light", "FFD66B", "1D1430"),
+      image: unsplash("1505771215590-c5fa0aec29b8"),
+      url: tiktokSearch("cat night light lamp"),
       trendScore: 92 + jitter(),
       tags: ["home", "gadget"],
     },
@@ -76,7 +90,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Self-Cleaning Litter Scoop",
       desc: "Viral on #CatTok. Sifts in one motion.",
       prices: { GBP: 19.99, EUR: 22.99 },
-      image: productImg("Litter Scoop", "4FB3FF"),
+      image: unsplash("1727510153658-643787acb16a"),
+      url: tiktokSearch("self cleaning litter scoop"),
       trendScore: 88 + jitter(),
       tags: ["pet", "tool"],
     },
@@ -85,7 +100,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Cat Tunnel Mega Pack",
       desc: "3-piece collapsible tunnel set with crinkle lining.",
       prices: { GBP: 24.99, EUR: 29.99 },
-      image: productImg("Cat Tunnel", "FF8A3D"),
+      image: unsplash("1742565850085-bf02c1e7cba4"),
+      url: tiktokSearch("cat tunnel collapsible"),
       trendScore: 85 + jitter(),
       tags: ["pet", "toy"],
     },
@@ -94,7 +110,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Feline Facial Mist",
       desc: "Silly trend, real product. Cucumber + chamomile.",
       prices: { GBP: 9.99, EUR: 10.99 },
-      image: productImg("Facial Mist", "B6E388", "1D1430"),
+      image: unsplash("1550572017-4b7a301b9d81"),
+      url: tiktokSearch("cat facial mist"),
       trendScore: 80 + jitter(),
       tags: ["pet", "wellness"],
     },
@@ -103,7 +120,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Tiny Cat Astronaut Helmet",
       desc: "Photo prop. Do not actually launch your cat.",
       prices: { GBP: 21.99, EUR: 24.99 },
-      image: productImg("Astro Helmet", "C0C9D6", "1D1430"),
+      image: unsplash("1541873676-a18131494184"),
+      url: tiktokSearch("cat astronaut helmet costume"),
       trendScore: 78 + jitter(),
       tags: ["costume", "photo"],
     },
@@ -112,7 +130,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Laser Pointer Robot",
       desc: "Auto-roaming. Keeps cats entertained for hours.",
       prices: { GBP: 28.99, EUR: 33.99 },
-      image: productImg("Laser Robot", "1D1430"),
+      image: unsplash("1592194996308-7b43878e84a6"),
+      url: tiktokSearch("automatic laser pointer cat toy"),
       trendScore: 75 + jitter(),
       tags: ["pet", "gadget"],
     },
@@ -121,7 +140,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Cat Loaf Mug",
       desc: "Heat-reactive ceramic. Mug warms, cat appears.",
       prices: { GBP: 12.99, EUR: 14.99 },
-      image: productImg("Ceramic Mug", "F5C8C0", "1D1430"),
+      image: unsplash("1616241673111-508b4662c707"),
+      url: tiktokSearch("cat ceramic mug heat reactive"),
       trendScore: 70 + jitter(),
       tags: ["home", "gift"],
     },
@@ -130,7 +150,8 @@ window.fetchTrendingProducts = async function fetchTrendingProducts() {
       title: "Window Hammock Perch",
       desc: "Suction-cup mount. Holds up to 30 lbs.",
       prices: { GBP: 21.99, EUR: 25.99 },
-      image: productImg("Window Perch", "7A5CFF"),
+      image: unsplash("1618826411640-d6df44dd3f7a"),
+      url: tiktokSearch("cat window hammock perch"),
       trendScore: 68 + jitter(),
       tags: ["pet", "home"],
     },

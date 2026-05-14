@@ -155,8 +155,7 @@ function onDislike(id) {
 function onBuy(p) {
   fb(p.id).buys += 1;
   saveFeedback();
-  // Real integration would deep-link to the TikTok Shop product URL here.
-  alert(`Opening ${p.title} on TikTok Shop…\n(Hook this up to your real product URL.)`);
+  if (p.url) window.open(p.url, "_blank", "noopener");
   render();
 }
 
